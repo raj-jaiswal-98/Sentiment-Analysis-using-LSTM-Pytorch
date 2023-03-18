@@ -8,10 +8,13 @@ import nltk
 from collections import Counter
 import string
 import re
+import seaborn as sns
+from tqdm import tqdm
+import matplotlib.pyplot as plt
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn.model_selection import train_test_split
 import pickle
-import Gradio
+import Gradio as gr
 
 is_cuda = torch.cuda.is_available()
 
@@ -86,7 +89,6 @@ class SentimentLSTM(nn.Module):
         hidden = (hidden_state, cell_state)
         return hidden
 
-
 # import saved model with weights from pickle file
 
 
@@ -127,10 +129,25 @@ def predict_sentiment(text):
     batch_size = 1
     h = model.init_hidden(batch_size)
     output, h = model(inputs, h)
-    return output.item()
+    prob = output.item()
+    pred = ''
+    if prob > 0.5:
+        pred = f"This Statement is Positive, with probability of {pred}"
+    else:
+        pred = f"This Statement is Nagative, with probability of {pred}"
+    return pred
 
 
 # GRadio UI
 
+with gr.Blocks() as demo:
+   passage = gr.Textbox(label='Passage')
+   submit_btn = gr.Button('Submit')
+   label = gr.Label()
+   submit_btn.click(predict_sentiment, passage, label)
+
+
+
+demo.launch(server_port = 8080)
 
 
