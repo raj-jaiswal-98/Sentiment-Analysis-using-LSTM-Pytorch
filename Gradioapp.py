@@ -26,6 +26,7 @@ else:
     device = torch.device("cpu")
     print("GPU not available, CPU used")
 
+
 #model class
 
 class SentimentLSTM(nn.Module):

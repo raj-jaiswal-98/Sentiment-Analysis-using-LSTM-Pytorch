@@ -28,6 +28,8 @@ else:
     device = torch.device("cpu")
     print("GPU not available, CPU used")
 
+# device = torch.device("cpu")
+output_dim = 1
 #model class
 
 class SentimentLSTM(nn.Module):
@@ -94,9 +96,12 @@ class SentimentLSTM(nn.Module):
 # import saved model with weights from pickle file
 
 
-model = pickle.load(open('model.pkl', 'rb'))
+# model = pickle.load(open('model.pkl', 'rb'))
 vocab = pickle.load(open('vocab.pkl', 'rb'))
-
+PATH = 'model_state.pkl'
+model = SentimentLSTM(2, len(vocab)+1, 256, 64)
+model.load_state_dict(torch.load(PATH))
+model.eval()
 
 # pre-processing input data
 
