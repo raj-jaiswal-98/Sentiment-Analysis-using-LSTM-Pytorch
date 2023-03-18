@@ -100,7 +100,7 @@ class SentimentLSTM(nn.Module):
 vocab = pickle.load(open('vocab.pkl', 'rb'))
 PATH = 'model_state.pkl'
 model = SentimentLSTM(2, len(vocab)+1, 256, 64)
-model.load_state_dict(torch.load(PATH))
+model.load_state_dict(torch.load(PATH, map_location=device))
 model.eval()
 
 # pre-processing input data
