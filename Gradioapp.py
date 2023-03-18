@@ -3,18 +3,18 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from nltk.corpus import stopwords 
+# from nltk.corpus import stopwords 
 import nltk
-from collections import Counter
+# from collections import Counter
 import string
 import re
-import seaborn as sns
-from tqdm import tqdm
-import matplotlib.pyplot as plt
-from torch.utils.data import TensorDataset, DataLoader
-from sklearn.model_selection import train_test_split
+# import seaborn as sns
+# from tqdm import tqdm
+# import matplotlib.pyplot as plt
+# from torch.utils.data import TensorDataset, DataLoader
+# from sklearn.model_selection import train_test_split
 import pickle
-import Gradio as gr
+import gradio as gr
 
 is_cuda = torch.cuda.is_available()
 
@@ -132,16 +132,16 @@ def predict_sentiment(text):
     prob = output.item()
     pred = ''
     if prob > 0.5:
-        pred = f"This Statement is Positive, with probability of {pred}"
+        pred = f"This Statement is Positive 🤗, with probability of {prob}"
     else:
-        pred = f"This Statement is Nagative, with probability of {pred}"
+        pred = f"This Statement is Negative 😤, with probability of {prob}"
     return pred
 
 
 # GRadio UI
 
 with gr.Blocks() as demo:
-   passage = gr.Textbox(label='Passage')
+   passage = gr.Textbox(label='Statement')
    submit_btn = gr.Button('Submit')
    label = gr.Label()
    submit_btn.click(predict_sentiment, passage, label)
@@ -149,5 +149,6 @@ with gr.Blocks() as demo:
 
 
 demo.launch(server_port = 8080)
+# demo.launch()
 
 
